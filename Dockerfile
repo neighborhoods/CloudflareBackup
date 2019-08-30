@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "./cf_backup.py" ]
+CMD [ "python", "./update_agentsite_dns.py" ]
