@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "cloudflarebackup"
+version = "0.1.0"
+description = ""
+authors = ["Justin Barnowski <jbarno@55places.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+cloudflare = "*"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

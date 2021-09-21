@@ -5,12 +5,12 @@ import time
 cf = CloudFlare.CloudFlare(raw=True)
 
 def fetch_zones():
-    print "Fetching zones..."
+    print("Fetching zones...")
     page_num = 0
     zones = []
     while True:
         page_num += 1
-        raw_results = cf.zones.get(params={'per_page':100,'page':page_num})
+        raw_results = cf.zones.get(params={'per_page': 100})
         results = raw_results['result']
         for zone in results:
             zones.append(zone)
@@ -19,11 +19,11 @@ def fetch_zones():
         if page_num == total_pages:
             break
 
-    print "Fetched {} Zones".format(len(zones))
+    print("Fetched {} Zones".format(len(zones)))
     return zones
 
 def fetch_dns_records(zone):
-    print "Fetching DNS Records for {}...".format(zone["name"])
+    print("Fetching DNS Records for {}...".format(zone["name"]))
     page_num = 0
     dns_records = []
     while True:
@@ -37,11 +37,11 @@ def fetch_dns_records(zone):
         if page_num == total_pages:
             break
 
-    print "Fetched {} DNS Records for {}".format(len(dns_records), zone["name"])
+    print("Fetched {} DNS Records for {}".format(len(dns_records), zone["name"]))
     return dns_records
 
 def fetch_page_rules(zone):
-    print "Fetching Page Rules for {}...".format(zone["name"])
+    print("Fetching Page Rules for {}...".format(zone["name"]))
     page_num = 0
     page_rules = []
     raw_results = cf.zones.pagerules.get(zone["id"], params={'per_page': 100})
@@ -49,7 +49,7 @@ def fetch_page_rules(zone):
     for page_rule in results:
         page_rules.append(page_rule)
 
-    print "Fetched {} Page Rules for {}".format(len(page_rules), zone["name"])
+    print("Fetched {} Page Rules for {}".format(len(page_rules), zone["name"]))
     return page_rules
 
 def append_dns_records_to_zones(zones):

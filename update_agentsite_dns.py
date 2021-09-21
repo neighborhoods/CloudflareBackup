@@ -10,7 +10,7 @@ old_endpoint = "55places-facade-elb-663916359.us-east-1.elb.amazonaws.com"
 cname_endpoint = "nhds-public-application-478477221.us-east-1.elb.amazonaws.com"
 
 def fetch_zones():
-    print "Fetching zones..."
+    print("Fetching zones...")
     page_num = 0
     zones = []
     while True:
@@ -19,14 +19,14 @@ def fetch_zones():
         results = raw_results['result']
         for zone in results:
             if agent_pattern.match(zone["name"]):
-                print(zone["name"])
+                print((zone["name"]))
                 zones.append(zone)
 
         total_pages = raw_results['result_info']['total_pages']
         if page_num == total_pages:
             break
 
-    print "Fetched {} Zones".format(len(zones))
+    print("Fetched {} Zones".format(len(zones)))
     return zones
 
 def append_dns_records_to_zones(zones):
@@ -36,7 +36,7 @@ def append_dns_records_to_zones(zones):
     return zones
 
 def fetch_dns_records(zone):
-    print "Fetching DNS Records for {}...".format(zone["name"])
+    print("Fetching DNS Records for {}...".format(zone["name"]))
     page_num = 0
     dns_records = []
     while True:
@@ -51,14 +51,14 @@ def fetch_dns_records(zone):
         if page_num == total_pages:
             break
 
-    print "Fetched {} DNS Records for {}".format(len(dns_records), zone["name"])
+    print("Fetched {} DNS Records for {}".format(len(dns_records), zone["name"]))
     return dns_records
 
 def update_records(zones):
     for zone in zones:
         for dns_record in zone["dns_records"]:
             if dns_record["content"] != old_endpoint:
-                print "Endpoint does not need an update."
+                print("Endpoint does not need an update.")
                 continue
 
             data = {
@@ -75,12 +75,12 @@ def update_records(zones):
                     data=data
                 )
             except CloudFlare.exceptions.CloudFlareAPIError as e:
-                print('/zones.dns_records.put %s - %d %s - api call failed' % (dns_record["name"], e, e))
+                print(('/zones.dns_records.put %s - %d %s - api call failed' % (dns_record["name"], e, e)))
 
 
 def add_root_to_www_page_rule(zones):
     for zone in zones:
-        print "Adding Redirect Rule for: {}".format(zone["name"])
+        print("Adding Redirect Rule for: {}".format(zone["name"]))
         data = {
             'targets': [
             {

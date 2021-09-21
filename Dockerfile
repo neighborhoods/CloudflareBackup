@@ -1,9 +1,9 @@
 FROM python:2
 
 WORKDIR /usr/src/app
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir poetry
 
-COPY . .
+COPY pyproject.toml pyproject.lock
+RUN poetry install
 
-CMD [ "python", "./update_agentsite_dns.py" ]
+CMD [ "poetry", "run", "python", "./update_agentsite_dns.py" ]
